@@ -1,6 +1,7 @@
 package manager;
 
 import domain.Ticket;
+import domain.TicketByTimeAscComparator;
 import org.junit.jupiter.api.Test;
 import repository.TicketRepository;
 
@@ -17,7 +18,7 @@ class TicketManagerTest {
     Ticket third = new Ticket(3, 10000, "SAW", "PEE", 320);
     Ticket fourth = new Ticket(4, 20000, "SVX", "SAW", 300);
     Ticket fiveth = new Ticket(5, 1500, "PEE", "SVO", 100);
-    Ticket sixth = new Ticket(6,1200, "LED", "VKO", 70);
+    Ticket sixth = new Ticket(6,1200, "LED", "VKO", 100);
 
 
     @Test
@@ -54,7 +55,7 @@ class TicketManagerTest {
         manager.add(fiveth);
 
         Ticket[] expected = new Ticket[]{fiveth, first};
-        Ticket[] actual = manager.findAll("PEE", "SVO");
+        Ticket[] actual = manager.findAll("PEE", "SVO", Ticket::compareTo);
 
         Arrays.sort(actual);
 
@@ -70,7 +71,7 @@ class TicketManagerTest {
         manager.add(fiveth);
 
         Ticket[] expected = new Ticket[]{};
-        Ticket[] actual = manager.findAll("SVO", "PEE");
+        Ticket[] actual = manager.findAll("SVO", "PEE", Ticket::compareTo);
 
         Arrays.sort(actual);
 
@@ -86,8 +87,8 @@ class TicketManagerTest {
         manager.add(fiveth);
         manager.add(sixth);
 
-        Ticket [] expected = new Ticket[] {sixth, second};
-        Ticket [] actual = manager.findAll("LED", "VKO");
+        Ticket [] expected = new Ticket[] {sixth, second}; //должно быть 2,6
+        Ticket [] actual = manager.findAll("LED", "VKO",Ticket::compareTo);
 
         Arrays.sort(actual);
 
