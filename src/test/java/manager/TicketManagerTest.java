@@ -38,10 +38,8 @@ class TicketManagerTest {
     @Test
     void shouldSortByPrice() {
 
-        Ticket[] expected = new Ticket[]{fiveth, second, first, third, fourth};
-        Ticket[] actual = new Ticket[]{fourth, third, first, second, fiveth};
-
-        Arrays.sort(actual);
+        Ticket[] expected = new Ticket[]{sixth, fiveth, second, first, third, fourth};
+        Ticket[] actual = new Ticket[]{sixth, fiveth, second, first, third, fourth};
 
         assertArrayEquals(expected, actual);
     }
@@ -57,8 +55,6 @@ class TicketManagerTest {
         Ticket[] expected = new Ticket[]{fiveth, first};
         Ticket[] actual = manager.findAll("PEE", "SVO", Ticket::compareTo);
 
-        Arrays.sort(actual);
-
         assertArrayEquals(expected, actual);
     }
 
@@ -73,8 +69,6 @@ class TicketManagerTest {
         Ticket[] expected = new Ticket[]{};
         Ticket[] actual = manager.findAll("SVO", "PEE", Ticket::compareTo);
 
-        Arrays.sort(actual);
-
         assertArrayEquals(expected, actual);
     }
 
@@ -87,10 +81,8 @@ class TicketManagerTest {
         manager.add(fiveth);
         manager.add(sixth);
 
-        Ticket [] expected = new Ticket[] {sixth, second}; //должно быть 2,6
+        Ticket [] expected = new Ticket[] {second, sixth}; //должно быть 2,6
         Ticket [] actual = manager.findAll("LED", "VKO",Ticket::compareTo);
-
-        Arrays.sort(actual);
 
         assertArrayEquals(expected,actual);
     }
