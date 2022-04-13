@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import repository.TicketRepository;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -13,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class TicketManagerTest {
     TicketRepository repository = new TicketRepository();
     TicketManager manager = new TicketManager(repository);
+
     Ticket first = new Ticket(1, 3000, "PEE", "SVO", 120);
     Ticket second = new Ticket(2, 2000, "LED", "VKO", 80);
     Ticket third = new Ticket(3, 10000, "SAW", "PEE", 320);
@@ -53,7 +55,7 @@ class TicketManagerTest {
         manager.add(fiveth);
 
         Ticket[] expected = new Ticket[]{fiveth, first};
-        Ticket[] actual = manager.findAll("PEE", "SVO", Ticket::compareTo);
+        Ticket[] actual = manager.findAll("PEE", "SVO", (perv, vtor) -> perv.getTimeOnAir() - vtor.getTimeOnAir());
 
         assertArrayEquals(expected, actual);
     }
@@ -67,7 +69,7 @@ class TicketManagerTest {
         manager.add(fiveth);
 
         Ticket[] expected = new Ticket[]{};
-        Ticket[] actual = manager.findAll("SVO", "PEE", Ticket::compareTo);
+        Ticket[] actual = manager.findAll("SVO", "PEE", Comparator.comparingInt(Ticket::getTimeOnAir));
 
         assertArrayEquals(expected, actual);
     }
@@ -82,8 +84,8 @@ class TicketManagerTest {
         manager.add(sixth);
 
         Ticket [] expected = new Ticket[] {second, sixth}; //должно быть 2,6
-        Ticket [] actual = manager.findAll("LED", "VKO",Ticket::compareTo);
+        Ticket [] actual = manager.findAll("LED", "VKO", (perv, vtor) -> perv.getTimeOnAir() - vtor.getTimeOnAir());
 
-        assertArrayEquals(expected,actual);
+        assertArrayEquals(expected, actual);
     }
 }
